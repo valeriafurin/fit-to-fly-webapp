@@ -1,0 +1,2 @@
+{% include "partials/score_summary.html" %}
+{% set oob = true %}{% for q in f.template.questions %}{% set w = warnings.get(q.id, "") %}{% include "partials/note_warning.html" %}{% endfor %}

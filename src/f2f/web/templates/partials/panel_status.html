@@ -1,0 +1,17 @@
+<div id="panel-status">
+    <div class="row"><h2 style="margin:0">Panel</h2><span class="spacer"></span><span class="small muted">{{ f.panelists|selectattr("assessment.submitted")|list|length }}/{{ f.panelists|length }} submitted · checked {{ checked_at }} UTC</span>
+      <button type="button" class="btn small" hx-get="/admin/f2f/{{ f.id }}/panel" hx-target="#panel-status" hx-swap="outerHTML" hx-disabled-elt="this"><span class="spinner" aria-hidden="true" hidden></span><span class="idle-label">Check for updates</span><span class="busy-label" hidden>Checking…</span></button></div>
+    <table>
+      <tr><th>Panelist</th><th>Role</th><th>Status</th><th>Score</th><th></th></tr>
+      {% for p in f.panelists %}{% set r = scores[p.id] %}
+      <tr>
+        <td><b>{{ p.name }}</b><br><span class="small muted">{{ p.email }}</span></td>
+        <td>{{ p.role }}</td>
+        <td><span class="badge {{ p.status.value }}">{{ p.status.value }}</span></td>
+        <td>{% if p.assessment.submitted %}{{ r.total|round(1) }} / {{ r.max_score }} <span class="badge {{ r.rating.split(' ')[0] }}">{{ r.rating }}</span>{% if p.assessment.submitted_at %}<br><span class="small muted">Submitted {{ p.assessment.submitted_at.strftime("%d %b %H:%M") }} UTC</span>{% endif %}{% else %}<span class="muted small">{{ r.answered }}/{{ r.question_count }} scored</span>{% endif %}</td>
+        <td><button type="button" class="btn small" data-copy="{{ links[p.id] }}">Copy link</button>
+          {% if p.pdf %}<a class="btn small" href="/admin/f2f/{{ f.id }}/panelist/{{ p.id }}/pdf">Download PDF</a>{% else %}<span class="muted small">PDF after submit</span>{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </table>
+</div>

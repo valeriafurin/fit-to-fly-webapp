@@ -20,6 +20,7 @@ from starlette.datastructures import FormData, UploadFile
 from f2f import scenario as scen
 from f2f.auth import ADMIN_COOKIE, AdminSessions
 from f2f.config import Settings, get_settings
+from f2f.consistency import mismatch_warning
 from f2f.drafting import draft_collated_page1, draft_page1, fallback_collated_page1
 from f2f.genai import GenAIClient
 from f2f.ics import build_ics
@@ -32,6 +33,7 @@ from f2f.models import (
     OUTCOMES,
     PANEL_ROLES,
     PRIORITY_LABELS,
+    Assessment,
     Attachment,
     F2FStatus,
     FeedbackBlock,
@@ -130,6 +132,8 @@ def create_app(settings: Settings | None = None, sender: Sender | None = None) -
     app.mount("/static", StaticFiles(directory=str(WEB_DIR / "static")), name="static")
     tpl = svc.templates
     tpl.env.globals.update(
+        # changes on every restart so browsers fetch fresh CSS/JS instead of a cached copy
+        asset_version=str(int(time.time())),
         IE_LEVELS=IE_LEVELS,
         OUTCOMES=OUTCOMES,
         PANEL_ROLES=PANEL_ROLES,
@@ -455,6 +459,20 @@ def create_app(settings: Settings | None = None, sender: Sender | None = None) -
             jobs=svc.jobs.for_f2f(f.id),
             links={p.id: svc.messages.panel_link(p) for p in f.panelists},
             scores={p.id: score_assessment(f, p.assessment) for p in f.panelists},
+            checked_at=utcnow().strftime("%H:%M:%S"),
+        )
+
+    @app.get("/admin/f2f/{f2f_id}/panel")
+    async def panel_partial(request: Request, f2f_id: str, _: Admin) -> HTMLResponse:
+        """Fetched by the dashboard's "Check for updates" button to show new scores without a reload."""
+        f = get_f2f(f2f_id)
+        return render(
+            request,
+            "partials/panel_status.html",
+            f=f,
+            links={p.id: svc.messages.panel_link(p) for p in f.panelists},
+            scores={p.id: score_assessment(f, p.assessment) for p in f.panelists},
+            checked_at=utcnow().strftime("%H:%M:%S"),
         )
 
     @app.get("/admin/f2f/{f2f_id}/jobs")
@@ -654,6 +672,8 @@ def create_app(settings: Settings | None = None, sender: Sender | None = None) -
             "locked": p.assessment.submitted,
             "page1": p.assessment.page1,
             "tl": False,
+            "warnings": note_warnings(f, p.assessment),
+            "missing": set(),
         }
 
     def apply_panel_form(f: F2F, p: Panelist, form: FormData) -> None:
@@ -687,7 +707,7 @@ def create_app(settings: Settings | None = None, sender: Sender | None = None) -
         if p.assessment.submitted:
             raise HTTPException(409, "This assessment is submitted and locked")
         apply_panel_form(f, p, await request.form())
-        return render(request, "partials/score_summary.html", **panel_ctx(f, p))
+        return render(request, "partials/panel_save.html", **panel_ctx(f, p))
 
     @app.post("/panel/{token}/draft")
     async def panel_draft(request: Request, token: str) -> HTMLResponse:
@@ -708,7 +728,10 @@ def create_app(settings: Settings | None = None, sender: Sender | None = None) -
         a = p.assessment
         result = score_assessment(f, a)
         if not result.complete:
-            raise HTTPException(400, f"Score all questions first ({result.answered}/{result.question_count})")
+            # Normally caught in the browser before submitting; this covers it without JavaScript.
+            ctx = panel_ctx(f, p)
+            ctx["missing"] = {q.id for q in f.template.questions if q.id not in a.scores}
+            return render(request, "panel/assess.html", status_code=400, **ctx)
         if a.page1 == Page1():
             # Nothing written yet: AI summarises the notes and sorts them into strengths and development areas.
             a.page1 = await draft_page1(svc.ai, f, a, result)
@@ -730,6 +753,11 @@ def create_app(settings: Settings | None = None, sender: Sender | None = None) -
         return attachment_response(p.pdf, pdf_filename(f, p.name), "application/pdf")
 
     return app
+
+
+def note_warnings(f: F2F, a: Assessment) -> dict[str, str]:
+    """Per question: a warning when the note and the score disagree (shown only, never blocks submit)."""
+    return {q.id: mismatch_warning(a.scores.get(q.id), a.notes.get(q.id, "")) for q in f.template.questions}
 
 
 def attachment_response(content: bytes, filename: str, mime: str) -> Response:

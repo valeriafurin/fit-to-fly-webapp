@@ -86,3 +86,23 @@ code.link { background: var(--bg); padding: 2px 6px; border-radius: 4px; font-si
 .prio-medium { background: var(--amber-tint); color: #8a5a00; }
 .prio-low { background: #eef0f3; color: var(--muted); }
 .feedback-block h4 { margin: 12px 0 6px; font-size: 14px; }
+.note-warn { margin-top: 6px; padding: 6px 10px; border-radius: 6px; background: var(--amber-tint); color: #8a5a00; font-size: 13px; }
+.note-warn[hidden] { display: none; }
+.spinner { width: 12px; height: 12px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .7s linear infinite; }
+/* Spinner and "Summarising…" carry the hidden attribute and only show while the request runs. */
+.spinner[hidden], .busy-label[hidden] { display: none; }
+.htmx-request .spinner[hidden] { display: inline-block; }
+.htmx-request .busy-label[hidden] { display: inline; }
+.htmx-request .idle-label { display: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 2s; } }
+.question.missing { border: 2px solid var(--red); box-shadow: 0 0 0 3px var(--red-tint); }
+.question.missing .scores { border-color: var(--red); }
+.score-error { margin-top: 8px; color: var(--red); font-size: 13px; font-weight: 600; }
+.score-error[hidden] { display: none; }
+.question { scroll-margin-top: 110px; } /* keeps a jumped-to question clear of the sticky score bar */
+.jump-list { margin: 6px 0 0; padding-left: 20px; }
+.jump-list a { color: var(--red); font-weight: 600; }
+.question.jump-flash { animation: jump-flash 1.2s ease-out 1; }
+@keyframes jump-flash { 0%, 40% { box-shadow: 0 0 0 8px rgba(226, 45, 45, .35); } 100% { box-shadow: 0 0 0 3px var(--red-tint); } }
+@media (prefers-reduced-motion: reduce) { .question.jump-flash { animation: none; } }

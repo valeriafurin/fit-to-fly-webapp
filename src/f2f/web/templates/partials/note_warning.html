@@ -1,0 +1,1 @@
+<div id="warn-{{ q.id }}" class="note-warn" {% if not w %}hidden{% endif %}{% if oob|default(false) %} hx-swap-oob="true"{% endif %}>{% if w %}⚠ {{ w }}{% endif %}</div>
