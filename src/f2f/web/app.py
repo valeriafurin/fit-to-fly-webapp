@@ -25,7 +25,7 @@ from f2f.drafting import draft_collated_page1, draft_page1, fallback_collated_pa
 from f2f.genai import GenAIClient
 from f2f.ics import build_ics
 from f2f.jobs import Job, JobQueue, JobStatus
-from f2f.messages import Messages, invite, pdf_filename, when
+from f2f.messages import Messages, date_label, invite, pdf_filename, when
 from f2f.models import (
     F2F,
     FEEDBACK_BLOCKS,
@@ -135,6 +135,7 @@ def create_app(settings: Settings | None = None, sender: Sender | None = None) -
         # changes on every restart so browsers fetch fresh CSS/JS instead of a cached copy
         asset_version=str(int(time.time())),
         IE_LEVELS=IE_LEVELS,
+        AUTO_PLACEHOLDERS=scen.AUTO_PLACEHOLDERS,
         OUTCOMES=OUTCOMES,
         PANEL_ROLES=PANEL_ROLES,
         FEEDBACK_BLOCKS=FEEDBACK_BLOCKS,
@@ -423,6 +424,19 @@ def create_app(settings: Settings | None = None, sender: Sender | None = None) -
             duration = int(g("duration_minutes") or 60)
         except ValueError:
             duration = 60
+
+        def played_by(role: str) -> str:
+            return " and ".join(p.name for p in panel if p.role == role)
+
+        auto = {
+            "CTO Name": played_by("CTO"),
+            "Developer Name": played_by("Developer"),
+            "Project Manager Name": played_by("PM"),
+            "TL Name": g("tl_name"),
+            "IE Name": g("candidate_name"),
+            "NAME": g("candidate_name"),
+            "DATE SCHEDULED": date_label(g("date")),
+        }
         f = F2F(
             template=t,
             ie_level=g("ie_level"),
@@ -436,7 +450,10 @@ def create_app(settings: Settings | None = None, sender: Sender | None = None) -
             tl_name=g("tl_name"),
             tl_email=g("tl_email"),
             panelists=panel,
-            placeholders={tok: g(f"ph-{i}") for i, tok in enumerate(scen.placeholders(t.scenario))},
+            placeholders={
+                tok: auto[tok] if tok in auto else g(f"ph-{i}")
+                for i, tok in enumerate(scen.placeholders(t.scenario))
+            },
             rollout_plan=rollout,
         )
         svc.store.add(f)

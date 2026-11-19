@@ -16,15 +16,15 @@ from tests.conftest import login, make_settings
 
 
 def test_placeholders_detected_once_in_order() -> None:
-    text = "Hi [Merchant Name], meet [SM Name] and [Merchant Name] team. [ ]"
-    assert placeholders(text) == ["Merchant Name", "SM Name"]
-    assert fill(text, {"Merchant Name": "Acme"}) == "Hi Acme, meet [SM Name] and Acme team. [ ]"
+    text = "Hi [Merchant Name], meet [Sales Manager Name] and [Merchant Name] team. [ ]"
+    assert placeholders(text) == ["Merchant Name", "Sales Manager Name"]
+    assert fill(text, {"Merchant Name": "Acme"}) == "Hi Acme, meet [Sales Manager Name] and Acme team. [ ]"
 
 
 def test_seeded_digital_scenario_placeholders(client: TestClient) -> None:
     login(client)
     page = client.get("/admin/f2f/new?pillar=Digital").text
-    for tok in ["Merchant Name", "Insert SM name", "IE Name", "TL Name", "SM Name"]:
+    for tok in ["Merchant Name", "Sales Manager Name", "CTO Name", "Developer Name", "Project Manager Name"]:
         assert f"[{tok}]" in page
 
 
@@ -171,7 +171,15 @@ def test_seeded_uc_scenario_placeholders(client: TestClient) -> None:
     login(client)
     page = client.get("/admin/f2f/new?pillar=UC").text
     assert "Fit to Fly role play prompt" in page and "Terminal API" in page
-    for tok in ["NAME", "DATE SCHEDULED", "Merchant Name", "Insert SM name", "IE Name", "TL Name", "SM Name"]:
+    for tok in [
+        "NAME",
+        "DATE SCHEDULED",
+        "Merchant Name",
+        "Sales Manager Name",
+        "CTO Name",
+        "Developer Name",
+        "Project Manager Name",
+    ]:
         assert f"[{tok}]" in page
 
 
@@ -179,5 +187,67 @@ def test_seeded_pfs_scenario_placeholders(client: TestClient) -> None:
     login(client)
     page = client.get("/admin/f2f/new?pillar=P%26FS").text
     assert "Adyen for Platforms" in page and "signed the contract last week" in page
-    for tok in ["NAME", "DATE SCHEDULED", "Merchant Name", "Insert SM name", "IE Name", "TL Name", "SM Name"]:
+    for tok in [
+        "NAME",
+        "DATE SCHEDULED",
+        "Merchant Name",
+        "Sales Manager Name",
+        "CTO Name",
+        "Developer Name",
+        "Project Manager Name",
+    ]:
         assert f"[{tok}]" in page
+
+
+def test_role_names_filled_from_panel(client: TestClient) -> None:
+    from tests.conftest import create_f2f, svc
+
+    login(client)
+    page = client.get("/admin/f2f/new?pillar=Digital").text
+    for tok in ("CTO Name", "Developer Name", "Project Manager Name"):
+        assert f"[{tok}]</label>" not in page
+    assert "[Sales Manager Name]</label>" in page
+    f2f_id = create_f2f(
+        client,
+        **{
+            "ph-1": "Sam Sales",
+            "panel-2-name": "Paula PM",
+            "panel-2-email": "pm@example.com",
+            "panel-2-role": "PM",
+        },
+    )
+    f = svc(client).store.get(f2f_id)
+    assert f
+    brief = fill(f.template.scenario, f.placeholders)
+    assert "their CTO, Pat One," in brief
+    assert "their developer, Dev Two," in brief
+    assert "Project Manager Paula PM." in brief
+    assert "Casey Candidate" not in brief and "Tara Lead" not in brief
+    assert "from the Sales Manager Sam Sales." in brief
+    assert "the merchant Acme Shoes, which we've been trying to poach" in brief
+    assert "sales manager" not in brief and " PM " not in brief
+    assert "from the merchants side." in brief and "never done a PSP" not in brief
+
+
+def test_name_and_date_filled_for_uc_and_pfs(client: TestClient) -> None:
+    from tests.conftest import F2F_FORM, create_f2f, svc
+
+    login(client)
+    for pillar in ("UC", "P&FS"):
+        page = client.get(f"/admin/f2f/new?pillar={pillar}").text
+        for tok in ("NAME", "DATE SCHEDULED", "CTO Name", "Developer Name", "Project Manager Name"):
+            assert f"[{tok}]</label>" not in page
+        f = svc(client).store.get(create_f2f(client, pillar=pillar))
+        assert f and F2F_FORM["date"] == "2026-11-10"
+        brief = fill(f.template.scenario, f.placeholders)
+        assert "Hi Casey Candidate," in brief and "Tuesday 10 November 2026" in brief
+        assert "[NAME]" not in brief and "[DATE SCHEDULED]" not in brief
+
+
+def test_auto_placeholders_hidden_in_admin_views(client: TestClient) -> None:
+    login(client)
+    new = client.get("/admin/f2f/new?pillar=Digital").text
+    assert "is filled from" not in new
+    editor = client.get("/admin/templates/Digital").text
+    assert "<code>[Merchant Name]</code>" in editor
+    assert "<code>[CTO Name]</code>" not in editor and "<code>[Project Manager Name]</code>" not in editor

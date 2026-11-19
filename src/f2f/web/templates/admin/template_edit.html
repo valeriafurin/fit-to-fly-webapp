@@ -10,7 +10,7 @@
   <div class="card">
     <h2 style="margin-top:0">Scenario</h2>
     <textarea name="scenario" style="min-height:280px">{{ t.scenario }}</textarea>
-    <p class="small muted">Placeholders found: {% for tok in tokens %}<code>[{{ tok }}]</code> {% else %}none{% endfor %}. Write any word in square brackets to add one.</p>
+    <p class="small muted">Placeholders found: {% for tok in tokens if tok not in AUTO_PLACEHOLDERS %}<code>[{{ tok }}]</code> {% else %}none{% endfor %}. Write any word in square brackets to add one.</p>
   </div>
   <div class="card">
     <h2 style="margin-top:0">Minimum pass totals</h2>
