@@ -5,11 +5,11 @@
       <tr><th>Panelist</th><th>Role</th><th>Status</th><th>Score</th><th></th></tr>
       {% for p in f.panelists %}{% set r = scores[p.id] %}
       <tr>
-        <td><b>{{ p.name }}</b><br><span class="small muted">{{ p.email }}</span></td>
+        <td><b>{{ p.name }}</b>{% if p.is_tl %} <span class="small muted">(you)</span>{% endif %}<br><span class="small muted">{{ p.email }}</span></td>
         <td>{{ p.role }}</td>
         <td><span class="badge {{ p.status.value }}">{{ p.status.value }}</span></td>
         <td>{% if p.assessment.submitted %}{{ r.total|round(1) }} / {{ r.max_score }} <span class="badge {{ r.rating.split(' ')[0] }}">{{ r.rating }}</span>{% if p.assessment.submitted_at %}<br><span class="small muted">Submitted {{ p.assessment.submitted_at.strftime("%d %b %H:%M") }} UTC</span>{% endif %}{% else %}<span class="muted small">{{ r.answered }}/{{ r.question_count }} scored</span>{% endif %}</td>
-        <td><button type="button" class="btn small" data-copy="{{ links[p.id] }}">Copy link</button>
+        <td>{% if p.is_tl %}<a class="btn small primary" href="/panel/{{ p.token }}">{% if p.assessment.submitted %}View my scorecard{% else %}Open my scorecard{% endif %}</a>{% else %}<button type="button" class="btn small" data-copy="{{ links[p.id] }}">Copy link</button>{% endif %}
           {% if p.pdf %}<a class="btn small" href="/admin/f2f/{{ f.id }}/panelist/{{ p.id }}/pdf">Download PDF</a>{% else %}<span class="muted small">PDF after submit</span>{% endif %}</td>
       </tr>
       {% endfor %}

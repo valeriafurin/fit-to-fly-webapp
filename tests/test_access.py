@@ -55,7 +55,7 @@ def test_panel_sees_only_own_assessment(client: TestClient) -> None:
     f2f_id = create_f2f(client)
     f = svc(client).store.get(f2f_id)
     assert f
-    a, b = f.panelists
+    a, b = f.invitees
     q = f.template.questions[0]
     b.assessment.notes[q.id] = "SECRET-NOTE-OF-B"
     client.cookies.clear()

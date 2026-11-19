@@ -449,7 +449,8 @@ def create_app(settings: Settings | None = None, sender: Sender | None = None) -
             zoom_link=g("zoom_link"),
             tl_name=g("tl_name"),
             tl_email=g("tl_email"),
-            panelists=panel,
+            # The TL is a panelist too, listed last, with their own scorecard.
+            panelists=[*panel, Panelist(name=g("tl_name"), email=g("tl_email"), role="TL", is_tl=True)],
             placeholders={
                 tok: auto[tok] if tok in auto else g(f"ph-{i}")
                 for i, tok in enumerate(scen.placeholders(t.scenario))
@@ -503,7 +504,7 @@ def create_app(settings: Settings | None = None, sender: Sender | None = None) -
         if not any(j.invite for j in svc.jobs.for_f2f(f.id)):
             submit_job(f, "Calendar invite (candidate, panel, TL)", invite=invite(f))
         submit_job(f, f"Brief to candidate {f.candidate_name}", email=svc.messages.candidate(f))
-        for p in f.panelists:
+        for p in f.invitees:
             submit_job(f, f"Panel link to {p.name}", email=svc.messages.panelist(f, p))
         if f.status == F2FStatus.draft:
             f.status = F2FStatus.invited
@@ -757,7 +758,8 @@ def create_app(settings: Settings | None = None, sender: Sender | None = None) -
         p.pdf = await svc.pdf.render(svc.pdf.html(f, p.name, a.page1, rows, result))
         a.submitted_at = utcnow()
         p.status = PanelStatus.submitted
-        submit_job(f, f"Assessment PDF to {p.name}", email=svc.messages.submitted(f, p))
+        if not p.is_tl:  # the TL downloads their PDF from their scorecard and the dashboard
+            submit_job(f, f"Assessment PDF to {p.name}", email=svc.messages.submitted(f, p))
         if all(x.assessment.submitted for x in f.panelists) and f.status != F2FStatus.sent:
             f.status = F2FStatus.collating
         return RedirectResponse(f"/panel/{token}", 303)
