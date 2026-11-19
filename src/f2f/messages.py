@@ -21,6 +21,13 @@ def time_window(f2f: F2F) -> tuple[str, str]:
     return start.strftime("%Y-%m-%dT%H:%M:00"), end.strftime("%Y-%m-%dT%H:%M:00")
 
 
+def date_label(iso_date: str) -> str:
+    try:
+        return f"{datetime.fromisoformat(iso_date):%A %d %B %Y}"
+    except ValueError:
+        return iso_date
+
+
 def when(f2f: F2F) -> str:
     start = datetime.fromisoformat(f"{f2f.date}T{f2f.start_time}")
     return f"{start:%A %d %B %Y, %H:%M} ({f2f.time_zone}, {f2f.duration_minutes} min)"

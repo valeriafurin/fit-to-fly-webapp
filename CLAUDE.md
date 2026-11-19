@@ -36,7 +36,7 @@ Local FastAPI + Jinja + htmx webapp that helps Adyen team leads (TL) schedule an
 
 ## Templates
 - The app reads `templates.json`; on first run it copies `src/f2f/data/templates.seed.json`. `scripts/seed_templates.py` builds the seed from the scoring xlsx and holds the hard-coded scenarios and pass marks.
-- Scenarios for **Digital, UC and P&FS are hard-coded** (seed JSON, the seed script and `templates.json` must stay in sync). The role-play prompt text is the owner's wording; placeholders are `[NAME]`, `[DATE SCHEDULED]`, `[Merchant Name]`, `[Insert SM name]`, `[IE Name]`, `[TL Name]`, `[SM Name]`.
+- Scenarios for **Digital, UC and P&FS are hard-coded** (seed JSON, the seed script and `templates.json` must stay in sync). The role-play prompt text is the owner's wording; placeholders are `[NAME]`, `[DATE SCHEDULED]`, `[Merchant Name]`, `[Sales Manager Name]`, `[CTO Name]`, `[Developer Name]`, `[Project Manager Name]`. Only Merchant Name and Sales Manager Name are typed by the TL; the rest are filled from the candidate, date and panelist roles (`scenario.AUTO_PLACEHOLDERS`). Write "Sales Manager" and "Project Manager" in full, capitalised., `[IE Name]`, `[TL Name]`, `[Sales Manager Name]`.
 - Syncing templates from Drive was discussed and dropped for now. It would need a Drive scope approved by Adyen IT, or a manual xlsx import.
 
 ## Gotchas

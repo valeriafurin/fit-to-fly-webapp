@@ -45,8 +45,8 @@
   </div>
   <div class="card">
     <h2 style="margin-top:0">Scenario values</h2>
-    {% if tokens %}
-    <div class="grid g3">{% for tok in tokens %}<div><label>[{{ tok }}]</label><input type="text" name="ph-{{ loop.index0 }}"></div>{% endfor %}</div>
+    {% if tokens | reject("in", AUTO_PLACEHOLDERS) | list %}
+    <div class="grid g3">{% for tok in tokens %}{% if tok not in AUTO_PLACEHOLDERS %}<div><label>[{{ tok }}]</label><input type="text" name="ph-{{ loop.index0 }}"></div>{% endif %}{% endfor %}</div>
     {% else %}<p class="muted">This scenario has no placeholders.</p>{% endif %}
     <h3>Scenario template</h3>
     <div class="scenario small">{{ t.scenario }}</div>

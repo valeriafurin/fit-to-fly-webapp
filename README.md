@@ -110,4 +110,4 @@ F2F data is purged when the TL clicks **Close & purge**, after `SESSION_TTL_HOUR
 - Panel links only open on this machine until the app is hosted. Set `PUBLIC_BASE_URL` when it is.
 - Zoom meetings are not created automatically. The TL pastes the link.
 - The UC and P&FS scenarios are placeholders, and the P&FS pillar questions have no rubric descriptions yet. Edit them in the template editor.
-- The Digital scenario uses `[IE Name]` for both the CTO and the developer, so one value fills both. Rename one in the template if they should differ.
+- `[CTO Name]`, `[Developer Name]` and `[Project Manager Name]` are filled from the panelists with the CTO, Developer and PM roles. `[NAME]` and `[DATE SCHEDULED]` come from the candidate name and date. If no panelist has a role, its placeholder stays in brackets.
