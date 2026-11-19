@@ -55,22 +55,21 @@ def test_summarise_button_has_spinner(client: TestClient) -> None:
     assert "/static/app.css?v=" in page
 
 
-def test_dashboard_reflects_submitted_scores_live(client: TestClient) -> None:
+def test_dashboard_check_for_updates_button(client: TestClient) -> None:
     f2f_id = create_f2f(client)
     f = svc(client).store.get(f2f_id)
     assert f
+    dash = client.get(f"/admin/f2f/{f2f_id}").text
+    assert "Check for updates" in dash and f'hx-get="/admin/f2f/{f2f_id}/panel"' in dash
+    assert "every 5s" not in dash
     first = f.panelists[0]
     client.post(f"/panel/{first.token}/save", data=score_form(client, f2f_id, 4))
     r = client.get(f"/admin/f2f/{f2f_id}/panel")
-    assert r.status_code == 200 and 'hx-trigger="every 5s"' in r.text and "0/" in r.text
+    assert r.status_code == 200 and f"0/{len(f.panelists)} submitted" in r.text
     first.assessment.submitted_at = utcnow()  # what submit does, minus the PDF step
     r = client.get(f"/admin/f2f/{f2f_id}/panel")
     assert f"1/{len(f.panelists)} submitted" in r.text and "Submitted " in r.text
-    for p in f.panelists:
-        p.assessment.submitted_at = utcnow()
-    r = client.get(f"/admin/f2f/{f2f_id}/panel")
-    assert "every 5s" not in r.text  # stops polling once everyone has submitted
-    assert 'id="panel-status"' in client.get(f"/admin/f2f/{f2f_id}").text
+    assert "Check for updates" in r.text and "every 5s" not in r.text
 
 
 def test_panel_partial_requires_tl(client: TestClient) -> None:
@@ -89,3 +88,22 @@ def test_development_areas_are_full_sentences_without_ai() -> None:
     assert as_sentence("Unclear?") == "Unclear?"
     assert score_based_feedback(2, "pricing unclear").developments == ["Pricing unclear."]
     assert score_based_feedback(4, "nailed it").strengths == ["nailed it"]
+
+
+def test_submit_with_missing_scores_outlines_them(client: TestClient) -> None:
+    f2f_id = create_f2f(client)
+    f = svc(client).store.get(f2f_id)
+    assert f
+    token = f.panelists[0].token
+    page = client.get(f"/panel/{token}").text
+    assert page.count("data-question") == len(f.template.questions) and "question missing" not in page
+    form = score_form(client, f2f_id, 3)
+    skipped = f.template.questions[1].id
+    del form[f"score-{skipped}"]
+    r = client.post(f"/panel/{token}/submit", data=form)
+    assert r.status_code == 400 and not f.panelists[0].assessment.submitted
+    assert f'class="question missing" id="q-{skipped}"' in r.text
+    assert r.text.count('class="question missing"') == 1
+    assert "1 question still needs a score" in r.text
+    assert f'href="#q-{skipped}" data-jump' in r.text  # link that jumps to the skipped question
+    assert f.panelists[0].assessment.notes[skipped] == "good"  # nothing typed is lost
