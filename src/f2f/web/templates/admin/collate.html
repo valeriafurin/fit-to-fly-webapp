@@ -1,0 +1,47 @@
+{% extends "admin/_base.html" %}
+{% block title %}Collate · {{ f.candidate_name }}{% endblock %}
+{% block content %}
+<div class="row"><h1>Collate · {{ f.candidate_name }} · {{ f.pillar }}</h1><span class="spacer"></span><a class="btn" href="/admin/f2f/{{ f.id }}">Back to dashboard</a></div>
+<p class="muted">{{ submitted|length }} of {{ f.panelists|length }} panelists submitted. Each collated rating is the average across submitted panelists. Type a value in <b>Override</b> to replace it.</p>
+<div id="save-error" class="flash error" hidden></div>
+<form id="collate-form" method="post" action="/admin/f2f/{{ f.id }}/send-tl" hx-post="/admin/f2f/{{ f.id }}/collate" hx-trigger="input delay:600ms, change" hx-target="#collate-summary" hx-swap="outerHTML">
+  <div class="sticky">{% include "partials/collate_summary.html" %}</div>
+  <div class="card">
+    <h2 style="margin-top:0">Score per panelist</h2>
+    <table class="tight">
+      <tr><th>Panelist</th><th>Role</th><th>Status</th><th>Score</th><th>Rating</th><th>PDF</th></tr>
+      {% for p, r in panel_scores %}
+      <tr><td><b>{{ p.name }}</b></td><td>{{ p.role }}</td><td><span class="badge {{ p.status.value }}">{{ p.status.value }}</span></td>
+        <td>{% if p.assessment.submitted %}{{ "%.1f"|format(r.total) }} / {{ r.max_score }}{% else %}<span class="muted small">{{ r.answered }}/{{ r.question_count }} scored</span>{% endif %}</td>
+        <td>{% if p.assessment.submitted %}<span class="badge {{ r.rating.split(' ')[0] }}">{{ r.rating }}</span>{% else %}–{% endif %}</td>
+        <td>{% if p.pdf %}<a class="btn small" href="/admin/f2f/{{ f.id }}/panelist/{{ p.id }}/pdf">Download PDF</a>{% else %}<span class="muted small">not submitted yet</span>{% endif %}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+  <div class="card">
+    <table class="tight">
+      <tr><th>Question</th><th>Priority</th>{% for p in submitted %}<th>{{ p.name }}</th>{% endfor %}<th>Average</th><th style="width:90px">Override</th></tr>
+      {% for section, qs in f.template.sections() %}
+        <tr><td colspan="{{ 4 + submitted|length }}"><b>{{ section }}</b></td></tr>
+        {% for q in qs %}
+        <tr>
+          <td>{{ q.text }}</td><td>{{ q.priority_label }}</td>
+          {% for p in submitted %}<td title="{{ p.assessment.notes.get(q.id, '') }}">{{ p.assessment.scores.get(q.id, "–") }}</td>{% endfor %}
+          <td>{% if q.id in avg %}{{ "%.1f"|format(avg[q.id]) }}{% else %}–{% endif %}</td>
+          <td><input type="number" min="1" max="5" step="0.1" name="override-{{ q.id }}" value="{{ f.collation.overrides.get(q.id, '') }}"></td>
+        </tr>
+        {% endfor %}
+      {% endfor %}
+    </table>
+  </div>
+  <div class="card">
+    <div class="row"><h2 style="margin:0">Collated evaluation &amp; feedback</h2><span class="spacer"></span>
+      <button type="button" class="btn small" hx-post="/admin/f2f/{{ f.id }}/collate/draft" hx-target="#page1" hx-swap="innerHTML" hx-indicator="#page1">{% if ai_available %}AI: merge panel write-ups{% else %}Merge panel write-ups{% endif %}</button></div>
+    <div id="page1">{% include "partials/page1_form.html" %}</div>
+  </div>
+  <div class="row">
+    <a class="btn" href="/admin/f2f/{{ f.id }}/collated.pdf">Download collated PDF</a>
+    <button class="btn primary" {% if not submitted %}disabled{% endif %} onclick="return confirm('Generate the collated PDF and email all PDFs to {{ f.tl_email }}?')">Email all PDFs to TL</button>
+  </div>
+</form>
+{% endblock %}

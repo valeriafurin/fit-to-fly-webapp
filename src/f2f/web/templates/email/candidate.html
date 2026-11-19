@@ -1,0 +1,9 @@
+{% extends "email/_wrap.html" %}{% block body %}
+<p>Hi {{ f.candidate_name }},</p>
+<p>Your Fit to Fly ({{ f.pillar }}) is scheduled for <b>{{ when }}</b>. You'll receive a separate calendar invite{% if f.zoom_link %} with the Zoom link{% endif %}.</p>
+{% if f.zoom_link %}<p>Zoom: <a href="{{ f.zoom_link }}" style="color:#089e45">{{ f.zoom_link }}</a></p>{% endif %}
+<h3 style="margin-bottom:6px">Scenario brief</h3>
+<div style="white-space:pre-wrap;background:#f7f8f9;border-left:4px solid #0ABF53;padding:12px 14px">{{ brief }}</div>
+{% if f.rollout_plan %}<p>The Roll-out plan is attached: {{ f.rollout_plan.filename }}.</p>{% endif %}
+<p>Good luck!<br>{{ f.tl_name }}</p>
+{% endblock %}

@@ -1,0 +1,13 @@
+Hi {{ f.candidate_name }},
+
+Your Fit to Fly ({{ f.pillar }}) is scheduled for {{ when }}. You'll receive a separate calendar invite.
+{% if f.zoom_link %}Zoom: {{ f.zoom_link }}
+{% endif %}
+SCENARIO BRIEF
+
+{{ brief }}
+{% if f.rollout_plan %}
+The Roll-out plan is attached: {{ f.rollout_plan.filename }}.
+{% endif %}
+Good luck!
+{{ f.tl_name }}

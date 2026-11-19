@@ -1,0 +1,14 @@
+Hi {{ p.name }},
+
+Thanks for joining the F2F panel for {{ f.candidate_name }} ({{ f.pillar }}, {{ f.ie_level }}) on {{ when }}.
+Your role in the scenario: {{ p.role }}.
+{% if f.zoom_link %}Zoom: {{ f.zoom_link }}
+{% endif %}
+Your personal assessment link (don't forward it):
+{{ link }}
+
+SCENARIO BRIEF
+
+{{ brief }}
+
+{{ f.tl_name }}

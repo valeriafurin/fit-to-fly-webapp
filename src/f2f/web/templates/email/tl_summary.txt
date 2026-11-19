@@ -1,0 +1,8 @@
+Hi {{ f.tl_name }},
+
+F2F results for {{ f.candidate_name }} ({{ f.pillar }}, {{ f.ie_level }}, pass mark {{ collated.threshold }} / {{ collated.max_score }}):
+
+{% for p, r in rows %}- {{ p.name }}: {{ r.total|round(1) }} ({{ r.rating }})
+{% endfor %}- Collated: {{ "%.1f"|format(collated.total) }} ({{ collated.rating }})
+
+The individual PDFs and the collated PDF are attached.

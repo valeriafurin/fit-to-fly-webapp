@@ -1,0 +1,43 @@
+{% extends "admin/_base.html" %}
+{% block title %}Template {{ t.key }}{% endblock %}
+{% block content %}
+<div class="row"><h1>{{ t.key }} template</h1><span class="spacer"></span>
+  {% for k in ["Digital", "UC", "P&FS"] %}<a class="btn small {% if k == t.key %}dark{% endif %}" href="/admin/templates/{{ k|urlencode }}">{{ k }}</a>{% endfor %}
+</div>
+<p class="muted">Saved to <code>templates.json</code>. Templates hold no candidate data. Changes apply to F2Fs created afterwards.</p>
+{% if saved %}<div class="flash">Template saved.</div>{% endif %}
+<form method="post" action="/admin/templates/{{ t.key|urlencode }}">
+  <div class="card">
+    <h2 style="margin-top:0">Scenario</h2>
+    <textarea name="scenario" style="min-height:280px">{{ t.scenario }}</textarea>
+    <p class="small muted">Placeholders found: {% for tok in tokens %}<code>[{{ tok }}]</code> {% else %}none{% endfor %}. Write any word in square brackets to add one.</p>
+  </div>
+  <div class="card">
+    <h2 style="margin-top:0">Minimum pass totals</h2>
+    <div class="grid g4">
+      {% for lvl in IE_LEVELS %}<div><label>{{ lvl }}</label><input type="number" min="0" name="threshold-{{ lvl }}" value="{{ t.thresholds[lvl] }}"></div>{% endfor %}
+      <div><label>Max possible</label><input type="text" value="{{ t.max_score }}" disabled></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2 style="margin-top:0">Rubric</h2>
+    <input type="hidden" name="count" value="{{ t.questions|length }}">
+    <table class="tight">
+      <tr><th style="width:12%">Section</th><th style="width:22%">Question</th><th style="width:9%">Priority</th><th>1 · Needs development</th><th>3 · Meets</th><th>5 · Exceeds</th><th>Delete</th></tr>
+      {% for q in t.questions %}{% set i = loop.index0 %}
+      <tr>
+        <td><input type="hidden" name="q-{{ i }}-id" value="{{ q.id }}"><input type="hidden" name="q-{{ i }}-tag" value="{{ q.tag }}"><input type="text" name="q-{{ i }}-section" value="{{ q.section }}"></td>
+        <td><textarea name="q-{{ i }}-text">{{ q.text }}</textarea></td>
+        <td><select name="q-{{ i }}-priority">{% for v, label in PRIORITY_LABELS.items() %}<option value="{{ v }}" {% if q.priority == v %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></td>
+        <td><textarea name="q-{{ i }}-desc1">{{ q.desc1 }}</textarea></td>
+        <td><textarea name="q-{{ i }}-desc3">{{ q.desc3 }}</textarea></td>
+        <td><textarea name="q-{{ i }}-desc5">{{ q.desc5 }}</textarea></td>
+        <td><input type="checkbox" name="q-{{ i }}-delete" value="1" aria-label="Delete question"></td>
+      </tr>
+      {% endfor %}
+    </table>
+    <p><button class="btn small" name="add" value="1">Add question</button></p>
+  </div>
+  <button class="btn primary">Save template</button>
+</form>
+{% endblock %}

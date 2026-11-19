@@ -1,0 +1,6 @@
+<div id="collate-summary">
+  <div><div class="lbl">Collated total</div><div class="big">{{ "%.1f"|format(result.total) }} <span style="font-size:15px;opacity:.7">/ {{ result.max_score }}</span></div></div>
+  <div><div class="lbl">Pass mark ({{ f.ie_level }})</div><div class="big">{{ result.threshold }}</div></div>
+  <div><div class="lbl">Rating</div><div class="big {% if result.rating == 'Pass' %}pill-pass{% else %}pill-nd{% endif %}">{{ result.rating }}</div></div>
+  <div><div class="lbl">Rated</div><div>{{ result.answered }}/{{ result.question_count }}</div></div>
+</div>

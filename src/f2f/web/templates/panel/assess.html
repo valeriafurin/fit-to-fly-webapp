@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block home %}/panel/{{ p.token }}{% endblock %}
+{% block title %}Assessment · {{ f.candidate_name }}{% endblock %}
+{% block nav %}<span>{{ p.name }} · {{ p.role }}</span>{% endblock %}
+{% block content %}
+<h1>Fit to Fly · {{ f.pillar }}: {{ f.candidate_name }}</h1>
+<p class="muted">{{ when }} · {{ f.ie_level }} · {% if f.zoom_link %}<a href="{{ f.zoom_link }}" target="_blank" rel="noopener">Zoom</a>{% endif %}</p>
+{% if locked %}<div class="flash">Submitted. Your assessment is locked. <a href="/panel/{{ p.token }}/pdf">Download your PDF</a>.</div>{% endif %}
+<details class="card" {% if not a.scores %}open{% endif %}><summary><b>Scenario brief</b> · your role: {{ p.role }}</summary><div class="scenario" style="margin-top:12px">{{ brief }}</div></details>
+<div id="save-error" class="flash error" hidden></div>
+<form id="assess" method="post" action="/panel/{{ p.token }}/submit" hx-post="/panel/{{ p.token }}/save" hx-trigger="input delay:700ms, change" hx-target="#score-summary" hx-swap="outerHTML">
+  <div class="sticky">{% include "partials/score_summary.html" %}</div>
+  {% for section, qs in f.template.sections() %}
+    <div class="section-title">{{ section }}</div>
+    {% for q in qs %}
+    <div class="question">
+      <div class="qhead">
+        <div class="qtext">{{ q.text }} <span class="badge prio-{{ q.priority_label|lower }}">{{ q.priority_label }} priority</span></div>
+        <div class="scores" role="radiogroup" aria-label="Score">
+          {% for s in range(1, 6) %}<label><input type="radio" name="score-{{ q.id }}" value="{{ s }}" {% if a.scores.get(q.id) == s %}checked{% endif %} {% if locked %}disabled{% endif %}><span>{{ s }}</span></label>{% endfor %}
+        </div>
+      </div>
+      <div class="rubric">
+        <div><b>1 · Needs development</b>{{ q.desc1 or "–" }}</div>
+        <div><b>3 · Meets expectations</b>{{ q.desc3 or "–" }}</div>
+        <div><b>5 · Exceeds expectations</b>{{ q.desc5 or "–" }}</div>
+      </div>
+      <div><label for="notes-{{ q.id }}">Notes</label><textarea id="notes-{{ q.id }}" name="notes-{{ q.id }}" placeholder="What did you observe? Plain text, in your own words." {% if locked %}disabled{% endif %}>{{ a.notes.get(q.id, "") }}</textarea></div>
+    </div>
+    {% endfor %}
+  {% endfor %}
+  <div class="card" style="margin-top:28px">
+    <div class="row"><h2 style="margin:0">Evaluation Summary &amp; Feedback</h2><span class="spacer"></span>
+      {% if not locked %}<button type="button" class="btn small" hx-post="/panel/{{ p.token }}/draft" hx-target="#page1" hx-swap="innerHTML">{% if ai_available %}AI: summarise my notes{% else %}Summarise my notes{% endif %}</button>{% endif %}
+    </div>
+    <p class="small muted">Built from your notes only: the summary condenses them, and each note is sorted into a strength or a development area using your score. If you leave this empty, it is filled in when you submit. Edit anything before you submit.</p>
+    <div id="page1">{% include "partials/page1_form.html" %}</div>
+  </div>
+  {% if not locked %}
+  <div class="row"><button class="btn primary" onclick="return confirm('Submit and lock your assessment? You will receive the PDF by email.')">Submit assessment</button>
+    <span class="small muted">All questions need a score before you submit.</span></div>
+  {% endif %}
+</form>
+{% endblock %}

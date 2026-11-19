@@ -1,0 +1,26 @@
+<div id="jobs" {% if jobs|selectattr("status.value","in",["queued","sending"])|list %}hx-get="/admin/f2f/{{ f.id }}/jobs" hx-trigger="every 3s" hx-swap="outerHTML"{% endif %}>
+{% if not jobs %}
+  <p class="muted">Nothing queued yet.</p>
+{% else %}
+  <p class="small muted">Backend: <b>{{ backend }}</b>.{% if backend == "droid" %} Droid sends text-only emails. Attach any PDFs or the roll-out plan yourself with the Gmail compose link.{% endif %}</p>
+  <table>
+    <tr><th>Item</th><th>Status</th><th>Details</th><th>Manual fallback</th></tr>
+    {% for j in jobs %}
+    <tr>
+      <td>{{ j.label }}<br><span class="small muted">{{ j.kind }}{% if j.email %} to {{ j.email.to|join(", ") }}{% endif %}</span></td>
+      <td><span class="badge {{ j.status.value }}">{{ j.status.value }}</span>
+        {% if j.attachments_pending %}<br><span class="badge manual">attach manually</span>{% endif %}</td>
+      <td class="small">{% if j.error %}<span style="color:var(--red)">{{ j.error }}</span>{% endif %}{{ j.note }}
+        {% if j.external_id %}<br><span class="muted">id {{ j.external_id }}</span>{% endif %}
+        {% if j.status.value in ["failed", "manual"] %}<br><button class="btn small" hx-post="/admin/f2f/{{ f.id }}/jobs/{{ j.id }}/retry" hx-target="#jobs" hx-swap="outerHTML">Retry</button>{% endif %}</td>
+      <td class="small">
+        {% if j.invite %}<a href="/admin/f2f/{{ f.id }}/jobs/{{ j.id }}/invite.ics">Download .ics</a><br><a href="{{ j.calendar_url }}" target="_blank" rel="noopener noreferrer">Add in Google Calendar</a>{% endif %}
+        {% if j.email %}<a href="{{ j.compose_url }}" target="_blank" rel="noopener noreferrer">Gmail compose</a>
+          {% for att in j.email.attachments %}<br><a href="/admin/f2f/{{ f.id }}/jobs/{{ j.id }}/attachment/{{ loop.index0 }}">{{ att.filename }}</a>{% endfor %}
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endif %}
+</div>

@@ -1,0 +1,10 @@
+{% extends "email/_wrap.html" %}{% block body %}
+<p>Hi {{ f.tl_name }},</p>
+<p>Here are the F2F results for <b>{{ f.candidate_name }}</b> ({{ f.pillar }}, {{ f.ie_level }}, pass mark {{ collated.threshold }} / {{ collated.max_score }}).</p>
+<table style="border-collapse:collapse;font-size:14px">
+<tr><th style="text-align:left;padding:4px 12px 4px 0">Panelist</th><th style="text-align:left;padding:4px 12px">Total</th><th style="text-align:left;padding:4px 12px">Rating</th></tr>
+{% for p, r in rows %}<tr><td style="padding:4px 12px 4px 0">{{ p.name }}</td><td style="padding:4px 12px">{{ r.total|round(1) }}</td><td style="padding:4px 12px">{{ r.rating }}</td></tr>{% endfor %}
+<tr><td style="padding:4px 12px 4px 0"><b>Collated</b></td><td style="padding:4px 12px"><b>{{ "%.1f"|format(collated.total) }}</b></td><td style="padding:4px 12px"><b>{{ collated.rating }}</b></td></tr>
+</table>
+<p>The individual PDFs and the collated PDF are attached.</p>
+{% endblock %}

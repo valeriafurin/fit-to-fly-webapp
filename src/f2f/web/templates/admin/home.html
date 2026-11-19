@@ -1,0 +1,29 @@
+{% extends "admin/_base.html" %}
+{% block content %}
+<div class="row"><h1>F2F assessments</h1><span class="spacer"></span><a class="btn primary" href="/admin/f2f/new">New F2F</a></div>
+<p class="muted">Everything here lives in memory only. It is purged when you close the F2F, after the session timeout, or when the server restarts.</p>
+<div class="card">
+{% if f2fs %}
+<table>
+  <tr><th>Candidate</th><th>Pillar</th><th>Level</th><th>Date</th><th>Panel</th><th>Status</th><th></th></tr>
+  {% for f in f2fs %}
+  <tr>
+    <td><b>{{ f.candidate_name }}</b></td><td>{{ f.pillar }}</td><td>{{ f.ie_level }}</td><td>{{ f.date }} {{ f.start_time }}</td>
+    <td>{{ f.panelists|selectattr("status.value","equalto","submitted")|list|length }}/{{ f.panelists|length }} submitted</td>
+    <td><span class="badge">{{ f.status.value }}</span></td>
+    <td><a class="btn small" href="/admin/f2f/{{ f.id }}">Open</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}<p class="muted">No F2Fs yet.</p>{% endif %}
+</div>
+<h2>Pillar templates</h2>
+<div class="grid g3">
+{% for t in pillars %}
+  <div class="card"><h3>{{ t.key }}</h3>
+    <p class="small muted">{{ t.questions|length }} questions · max {{ t.max_score }} · pass IE1 {{ t.thresholds["IE1"] }} / IE2 {{ t.thresholds["IE2"] }} / Senior {{ t.thresholds["Senior IE"] }}</p>
+    <a class="btn small" href="/admin/templates/{{ t.key|urlencode }}">Edit template</a>
+  </div>
+{% endfor %}
+</div>
+{% endblock %}

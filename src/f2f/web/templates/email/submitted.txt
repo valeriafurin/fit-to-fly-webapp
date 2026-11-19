@@ -1,0 +1,7 @@
+Hi {{ p.name }},
+
+Thanks for submitting your F2F assessment of {{ f.candidate_name }} ({{ f.pillar }}).
+Your total: {{ result.total|round(1) }} / {{ result.max_score }} (pass mark {{ result.threshold }} for {{ f.ie_level }}), rating: {{ result.rating }}.
+
+Your PDF is attached. While the F2F is open you can also download it here:
+{{ link }}

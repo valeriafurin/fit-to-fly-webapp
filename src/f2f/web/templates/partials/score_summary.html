@@ -1,0 +1,7 @@
+<div id="score-summary">
+  <div><div class="lbl">Total</div><div class="big">{{ result.total|round(1) }} <span style="font-size:15px;opacity:.7">/ {{ result.max_score }}</span></div></div>
+  <div><div class="lbl">Pass mark ({{ f.ie_level }})</div><div class="big">{{ result.threshold }}</div></div>
+  <div><div class="lbl">Rating</div><div class="big {% if result.rating == 'Pass' %}pill-pass{% else %}pill-nd{% endif %}">{{ result.rating }}</div></div>
+  <div><div class="lbl">Scored</div><div>{{ result.answered }}/{{ result.question_count }}</div></div>
+  <div class="small" style="margin-left:auto;opacity:.7">{% if locked %}Submitted · locked{% else %}Saved automatically{% endif %}</div>
+</div>

@@ -1,0 +1,53 @@
+{% extends "admin/_base.html" %}
+{% block title %}{{ f.candidate_name }}{% endblock %}
+{% block content %}
+<div class="row">
+  <div><h1>{{ f.candidate_name }} · {{ f.pillar }}</h1><span class="badge">{{ f.status.value }}</span> <span class="muted small">{{ f.ie_level }} · pass mark {{ f.threshold }} / {{ f.template.max_score }}</span></div>
+  <span class="spacer"></span>
+  <form method="post" action="/admin/f2f/{{ f.id }}/invite" onsubmit="return {% if f.status.value != 'Draft' %}confirm('Invites were already sent. Send them again?'){% else %}true{% endif %}">
+    <button class="btn primary">{% if f.status.value == 'Draft' %}Send invites{% else %}Resend invites{% endif %}</button>
+  </form>
+  <a class="btn dark" href="/admin/f2f/{{ f.id }}/collate">Collate results</a>
+  <form method="post" action="/admin/f2f/{{ f.id }}/purge" onsubmit="return confirm('Close this F2F and delete all its data from memory? This cannot be undone.')">
+    <button class="btn danger">Close &amp; purge</button>
+  </form>
+</div>
+<div class="grid g2" style="margin-top:20px">
+  <div class="card">
+    <h2 style="margin-top:0">Details</h2>
+    <dl class="kv">
+      <dt>When</dt><dd>{{ when }}</dd>
+      <dt>Zoom</dt><dd>{% if f.zoom_link %}<a href="{{ f.zoom_link }}" target="_blank" rel="noopener">{{ f.zoom_link }}</a>{% else %}<span class="muted">none</span>{% endif %}</dd>
+      <dt>Candidate</dt><dd>{{ f.candidate_name }} &lt;{{ f.candidate_email }}&gt;</dd>
+      <dt>TL</dt><dd>{{ f.tl_name }} &lt;{{ f.tl_email }}&gt;</dd>
+      <dt>Roll-out plan</dt><dd>{% if f.rollout_plan %}<a href="/admin/f2f/{{ f.id }}/rollout">{{ f.rollout_plan.filename }}</a>{% else %}<span class="muted">none</span>{% endif %}</dd>
+    </dl>
+  </div>
+  <div class="card">
+    <h2 style="margin-top:0">Panel</h2>
+    <table>
+      <tr><th>Panelist</th><th>Role</th><th>Status</th><th>Score</th><th></th></tr>
+      {% for p in f.panelists %}{% set r = scores[p.id] %}
+      <tr>
+        <td><b>{{ p.name }}</b><br><span class="small muted">{{ p.email }}</span></td>
+        <td>{{ p.role }}</td>
+        <td><span class="badge {{ p.status.value }}">{{ p.status.value }}</span></td>
+        <td>{% if p.assessment.submitted %}{{ r.total|round(1) }} / {{ r.max_score }} <span class="badge {{ r.rating.split(' ')[0] }}">{{ r.rating }}</span>{% else %}<span class="muted small">{{ r.answered }}/{{ r.question_count }} scored</span>{% endif %}</td>
+        <td><button type="button" class="btn small" data-copy="{{ links[p.id] }}">Copy link</button>
+          {% if p.pdf %}<a class="btn small" href="/admin/f2f/{{ f.id }}/panelist/{{ p.id }}/pdf">Download PDF</a>{% else %}<span class="muted small">PDF after submit</span>{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <p><a class="btn small dark" href="/admin/f2f/{{ f.id }}/collated.pdf">Download collated PDF</a> <span class="small muted">Every submitted panelist's PDF is listed above; the collated PDF also includes each panelist's score.</span></p>
+    <p class="small muted">Panel links are personal. They are sent only to each panelist and never added to the calendar invite.</p>
+  </div>
+</div>
+<div class="card">
+  <h2 style="margin-top:0">Delivery</h2>
+  {% include "partials/jobs.html" %}
+</div>
+<div class="card">
+  <h2 style="margin-top:0">Scenario preview</h2>
+  <div class="scenario">{{ brief }}</div>
+</div>
+{% endblock %}

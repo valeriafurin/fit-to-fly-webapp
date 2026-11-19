@@ -1,0 +1,57 @@
+{% extends "admin/_base.html" %}
+{% block title %}New F2F{% endblock %}
+{% block content %}
+<h1>Create F2F</h1>
+{% if error %}<div class="flash error">{{ error }}</div>{% endif %}
+<form method="post" action="/admin/f2f" enctype="multipart/form-data">
+  <div class="card">
+    <h2 style="margin-top:0">Candidate</h2>
+    <div class="grid g4">
+      <div><label>Pillar</label>
+        <select name="pillar" onchange="location.href='/admin/f2f/new?pillar='+encodeURIComponent(this.value)">
+          {% for p in pillars %}<option {% if p.key == t.key %}selected{% endif %}>{{ p.key }}</option>{% endfor %}
+        </select></div>
+      <div><label>IE level</label><select name="ie_level">{% for l in IE_LEVELS %}<option>{{ l }}</option>{% endfor %}</select></div>
+      <div><label>Candidate name</label><input type="text" name="candidate_name" required></div>
+      <div><label>Candidate email</label><input type="email" name="candidate_email" required></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2 style="margin-top:0">When and where</h2>
+    <div class="grid g4">
+      <div><label>Date</label><input type="date" name="date" required></div>
+      <div><label>Start time</label><input type="time" name="start_time" required></div>
+      <div><label>Duration (min)</label><input type="number" name="duration_minutes" value="60" min="15" step="15"></div>
+      <div><label>Time zone</label><input type="text" name="time_zone" value="Europe/Amsterdam"></div>
+    </div>
+    <div style="margin-top:12px"><label>Zoom link</label><input type="url" name="zoom_link" placeholder="https://adyen.zoom.us/j/..."></div>
+  </div>
+  <div class="card">
+    <h2 style="margin-top:0">TL and panel</h2>
+    <div class="grid g2">
+      <div><label>TL name</label><input type="text" name="tl_name" required></div>
+      <div><label>TL email</label><input type="email" name="tl_email" required></div>
+    </div>
+    <h3>Panelists</h3>
+    <input type="hidden" id="panel_count" name="panel_count" value="3">
+    <table><thead><tr><th>Name</th><th>Email</th><th>Role in scenario</th></tr></thead>
+      <tbody id="panel-rows">
+      {% for i in range(3) %}
+        <tr><td><input type="text" name="panel-{{ i }}-name"></td><td><input type="email" name="panel-{{ i }}-email"></td>
+          <td><select name="panel-{{ i }}-role">{% for r in PANEL_ROLES %}<option {% if r == ["CTO","Developer","PM"][i] %}selected{% endif %}>{{ r }}</option>{% endfor %}</select></td></tr>
+      {% endfor %}
+      </tbody></table>
+    <p><button type="button" class="btn small" data-add-panelist>Add panelist</button></p>
+  </div>
+  <div class="card">
+    <h2 style="margin-top:0">Scenario values</h2>
+    {% if tokens %}
+    <div class="grid g3">{% for tok in tokens %}<div><label>[{{ tok }}]</label><input type="text" name="ph-{{ loop.index0 }}"></div>{% endfor %}</div>
+    {% else %}<p class="muted">This scenario has no placeholders.</p>{% endif %}
+    <h3>Scenario template</h3>
+    <div class="scenario small">{{ t.scenario }}</div>
+    <div style="margin-top:12px"><label>Roll-out plan (optional, kept in memory)</label><input type="file" name="rollout_plan"></div>
+  </div>
+  <button class="btn primary">Create F2F and preview</button>
+</form>
+{% endblock %}

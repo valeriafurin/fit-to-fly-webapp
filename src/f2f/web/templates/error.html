@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block home %}/{% endblock %}
+{% block title %}{{ code }}{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>{{ code }}</h1>
+  <p>{{ detail }}</p>
+  {% if show_login %}<p><a class="btn primary" href="/login">TL sign-in</a></p>{% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>{% block title %}F2F Assessment{% endblock %} · Adyen</title>
+  <link rel="stylesheet" href="/static/app.css">
+  <script src="/static/htmx.min.js" defer></script>
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="{% block home %}/admin{% endblock %}">adyen</a>
+    <span class="tag">Fit to Fly</span>
+    <nav>{% block nav %}{% endblock %}</nav>
+  </header>
+  <main>{% block content %}{% endblock %}</main>
+</body>
+</html>

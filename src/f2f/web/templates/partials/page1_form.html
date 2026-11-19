@@ -1,0 +1,21 @@
+{% set tl = tl|default(false) %}
+{% if tl %}
+<h3>Outcome</h3>
+<p class="small muted">Follows the score. Change it only if the panel decides otherwise.</p>
+<div class="grid g2">
+  <div><label>Overall Evaluation</label><select name="p1-overall" {% if locked %}disabled{% endif %}><option value=""></option>{% for o in OUTCOMES %}<option {% if page1.overall_evaluation == o %}selected{% endif %}>{{ o }}</option>{% endfor %}</select></div>
+  <div><label>F2F Outcome</label><select name="p1-outcome" {% if locked %}disabled{% endif %}><option value=""></option>{% for o in OUTCOMES %}<option {% if page1.outcome == o %}selected{% endif %}>{{ o }}</option>{% endfor %}</select></div>
+</div>
+{% endif %}
+<h3>Evaluation Summary</h3>
+<textarea name="p1-summary" placeholder="Executive summary of the notes" {% if locked %}disabled{% endif %}>{{ page1.summary }}</textarea>
+<h3>F2F Feedback</h3>
+{% for key, label in FEEDBACK_BLOCKS %}{% set blk = page1|attr(key) %}
+<div class="feedback-block">
+  <h4>{{ label }}</h4>
+  <div class="grid g2">
+    <div><label>Strengths</label><textarea name="p1-{{ key }}-strengths" style="min-height:100px" {% if locked %}disabled{% endif %}>{{ blk.strengths }}</textarea></div>
+    <div><label>Development areas</label><textarea name="p1-{{ key }}-development" style="min-height:100px" {% if locked %}disabled{% endif %}>{{ blk.development }}</textarea></div>
+  </div>
+</div>
+{% endfor %}

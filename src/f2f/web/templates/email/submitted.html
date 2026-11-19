@@ -1,0 +1,6 @@
+{% extends "email/_wrap.html" %}{% block body %}
+<p>Hi {{ p.name }},</p>
+<p>Thanks for submitting your F2F assessment of <b>{{ f.candidate_name }}</b> ({{ f.pillar }}).</p>
+<p>Your total: <b>{{ result.total|round(1) }} / {{ result.max_score }}</b> (pass mark {{ result.threshold }} for {{ f.ie_level }}), rating: <b>{{ result.rating }}</b>.</p>
+<p>Your PDF is attached. While the F2F is open you can also download it here: <a href="{{ link }}" style="color:#089e45">{{ link }}</a></p>
+{% endblock %}

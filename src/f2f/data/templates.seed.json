@@ -1,0 +1,527 @@
+{
+  "pillars": [
+    {
+      "key": "Digital",
+      "scenario": "You are one of our talented IMs, intimately familiar with our Adyen Checkout solution. You've been assigned to a project and will lead a technical kick off call with a merchant we've been trying to poach from our competitor for years: [Merchant Name]\n\nYou've aligned with the Adyen commercial sales manager [Insert SM name] on high level topics and now the SM & [Merchant Name] team has invited their CTO, [IE Name], a technically gifted person who is slow to warm up to new partners, to learn about Adyen's integration and integration process. Your commercial colleague has primed the team and has them excited about Adyen.\n\nWe have just found out the CTO has invited members of their technical team to the meeting, including their developer, [IE Name], who will be in charge of integrating Adyen and the merchants Project manager [TL Name]. Their developer is a highly technical and organised individual who has worked with the merchants previous PSP before and the Project Manager is an experienced PM who will be managing the project from the merchants side and has never done a PSP integration before.\n\nYou're expected to lead the call and:\n- Uncover the merchant's unique business needs\n- Present yourself as a subject matter expert\n- Explain and set expectations for Adyen's way of implementing and what can be achieved in the timeline\n- Give a technical presentation about our Adyen Ecommerce proposition tailored using the information you uncover\n- Close the meeting on time and with immediate next steps for the integration, as well as send a Kick off summary email afterward that also covers any outstanding questions.\n\nYour commercial colleague has informed you that the attendees are very detail oriented and will also have some minor questions on the Adyen Platform / tokenisation / acquiring / financial reconciliation amongst other topics, so be ready for some off-track questions. There will be a separate POS meeting so no need to know everything about that, but some general knowledge might be useful.\n\nThe [Merchant Name] team has 1 hour available, so make sure you condense your talking points to the important topics you want to convey. They look forward to understanding how our solution works and what they can achieve with Adyen. Attached is the Roll out plan we have received from the SM [SM Name]",
+      "questions": [
+        {
+          "id": "q1",
+          "section": "Meeting Management",
+          "text": "Did the candidate inquire about the merchant’s current flow or process?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Has researched merchant and can explain understanding of merchants user and payment flows",
+          "desc5": "Can proactively walk team through all the merchants shopper flows & ones they have researched. Askes questions on if there is more not uncovered."
+        },
+        {
+          "id": "q2",
+          "section": "Meeting Management",
+          "text": "Did the candidate ask, set and manage expectations for the meeting? Do they clearly set boundaries for their role vs sales for example?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Starts meeting with Intro & agenda for meeting. No pre comms. Any commercial objections are referenced to SM",
+          "desc5": "Before meeting, a welcome email with agenda for meeting and intro to self & relevant pre reads and ask for questions they already have. Incl proactive statement about commercial topics being directed to SM"
+        },
+        {
+          "id": "q3",
+          "section": "Meeting Management",
+          "text": "Did candidate ensure most critical items were covered in Agenda and anything missed is followed up?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Able to bring meeting back on track, handle objections that could delay agenda and offer solutions to address non agenda items.",
+          "desc5": "Same as Average but also offers deep dive sessions on topics, provides clear documentation and follow ups and is able to retain merchants confidence."
+        },
+        {
+          "id": "q4",
+          "section": "Meeting Management",
+          "text": "Did the candidate show they had done their research on the merchants industry, competitors and business?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Show basic understanding of merchant and virtuical in region.",
+          "desc5": "Shows in depth understanding merchant & vertical and comes prepared with assumptions and work flows for confirmation"
+        },
+        {
+          "id": "q5",
+          "section": "Knowledge & Expertise",
+          "text": "Did the candidate provide the correct Adyen doc links for all relevant points discussed and clear answers to follow up questions?",
+          "priority": 2,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Documented scope, provides relevant docs and answers to follow up questions. Suggests ongoing project meetings.",
+          "desc5": "Is thinking ahead and providing answers and info for questions the merchant has not yet asked for. Proactively offers deep dives to topics the most important to the merchant."
+        },
+        {
+          "id": "q6",
+          "section": "Knowledge & Expertise",
+          "text": "Did the candidate give proper advice on which integration would suit the merchant scenario best and pivot appropriately?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Confidently recommend options based on scoped info.",
+          "desc5": "Able to explain the why & justifacation behind recommendations and handle objecions to this recommendation."
+        },
+        {
+          "id": "q7",
+          "section": "Knowledge & Expertise",
+          "text": "Did the candidate give a proper explanation of the flow of data between the server and client?",
+          "priority": 1,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Used standard doc slides and covers topline information",
+          "desc5": "Able to explain in detail and the effect it has on the merchant & implications (eg. PCI scope etc)"
+        },
+        {
+          "id": "q8",
+          "section": "Digital",
+          "text": "Did the candidate present the different ecom integration options?",
+          "priority": 3,
+          "tag": "Digital",
+          "desc1": "",
+          "desc3": "Run through standard doc page/slide deck and talks to standard demo",
+          "desc5": "Candidate uses the integration they built themselves to demo during the meeting"
+        },
+        {
+          "id": "q9",
+          "section": "Digital",
+          "text": "Did the candidate give a proper explanation on 3DS?",
+          "priority": 2,
+          "tag": "Digital",
+          "desc1": "",
+          "desc3": "Explains the need for 3DS and topline info",
+          "desc5": "Able to discuss different flows and impact & recommendation for merchant."
+        },
+        {
+          "id": "q10",
+          "section": "Digital",
+          "text": "Did the candidate give a proper explanation of tokenization, what a token is made up of, and the different processing models?",
+          "priority": 2,
+          "tag": "Digital",
+          "desc1": "",
+          "desc3": "Explains what tokenisation is, apprpriate use cases and how to technically implement this correctly.",
+          "desc5": "Able to discuss different flows and impact & recommendation for merchant."
+        },
+        {
+          "id": "q11",
+          "section": "Digital",
+          "text": "Did the candidate give a proper explanation of payment modifications and webhooks?",
+          "priority": 3,
+          "tag": "Digital",
+          "desc1": "",
+          "desc3": "Able to explain the different modifications, types of webhooks and use cases.",
+          "desc5": "Able to explain the different modifications, types of webhooks and use cases.\nCan make sticky for the merchant and specifically recommend use cases for their business and in context of their implementation."
+        },
+        {
+          "id": "q12",
+          "section": "Personal Skills",
+          "text": "Did the candidate appear confident in handling the meeting and questions during the meeting, including unrealistic feature and support requests?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Were able to handle most objections on the spot and acknowledged the need for follow up.",
+          "desc5": "Able to handle ALL objections and show authority to merchant on all topics and recommendations."
+        },
+        {
+          "id": "q13",
+          "section": "Personal Skills",
+          "text": "Did the candidate demonstrate their ability to think on the spot with newly provided information?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Show agility in their approach, able to handle objections professionally. Able to admit to not having answers and show follow up.",
+          "desc5": "Show agility in their approach, able to handle objections professionally. Able to admit to not having answers and show follow up. Also able to find answers on the spot."
+        },
+        {
+          "id": "q14",
+          "section": "Personal Skills",
+          "text": "Did the candidate clearly explain next steps before the end of the call?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Recaps meeting & top line next steps. Suggests ongoing cadence.",
+          "desc5": "Recaps meeting & top line next steps. Suggests ongoing cadence.\nOffers next meeting time on call"
+        },
+        {
+          "id": "q15",
+          "section": "Personal Skills",
+          "text": "Did the candidate speak clearly and were they able to explain complex matters in understandable language?",
+          "priority": 2,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Refers back to standard docs and slides (resources) to support explanation.",
+          "desc5": "Clear articulation and able to on the spot whiteboard and explain reasoning and technical concepts. Able to cater language to less technical audiences."
+        }
+      ],
+      "thresholds": {
+        "IE1": 90,
+        "IE2": 117,
+        "Senior IE": 171
+      }
+    },
+    {
+      "key": "UC",
+      "scenario": "Hi [NAME],\n\nYou’re almost at the end of your formal IM onboarding journey which ends in a Fit to Fly assessment on [DATE SCHEDULED]! We hope you’re proud of how far you’ve come!\n\nWhat to expect:\n\n- The Fit to Fly assessment is meant to demonstrate whether or not you are ready to take on projects on your own and it’s a space for you and your team lead to align on your readiness through a true-to-life role play scenario\n- In a 1 hour roleplay, you are the IE leading a technical kick off call with the merchant with a slide deck.\n- You are roleplaying with your team lead and other experienced IEs playing the merchant per the prompt below\n- There will be some questions posed during the merchant call that you will need to come back to the ‘merchant’ on via email, alongside a summary of the kick off call.\n\nFit to Fly role play prompt:\n\nYou are one of our talented IEs, intimately familiar with our Adyen Checkout solution.\n\nYou’ve been assigned to a project and will lead a technical kick off call with a merchant we’ve been trying to poach from our competitor for years: [Merchant Name]\n\nYou’ve aligned with the Adyen commercial sales manager [Insert SM name] on high level topics and now [Merchant Name]  has invited their CTO,  [IE Name], a technically gifted person who is slow to warm up to new partners, to learn about Adyen’s integration and integration process.\n\nYour commercial colleague has primed the team and has them excited about Adyen.\n\nWe have just found out the CTO has invited members of their technical team to the meeting, including their developer, [IE Name], who will be in charge of integrating Adyen and the merchants Project manager [TL Name].\n\nTheir developer is a highly technical and organised individual who has worked with the merchants previous PSP before and the Project Manager is an experienced PM who will be managing the project from the merchants side and has never done a PSP integration before,\n\nYou’re expected to lead the call and:\n\n- Uncover the merchant’s unique business needs\n- Present yourself as a subject matter expert\n- Explain and set expectations for Adyen’s way of implementing and what can be achieved in the timeline\n- Give a technical presentation about our Adyen Ecommerce & IPP proposition that is tailored using the information you uncover\n- Close the meeting on time and with immediate next steps for the integration\n\nYour commercial colleague has informed you that the attendees are very detail oriented and will also have some minor questions on In-Person-Payments, Adyen Terminal Offering, and Terminal API amongst other topics, so be ready for some off-track questions.\n\nThe [Merchant Name]  team has 1 hour available, so make sure you condense your talking points to the important topics you want to convey. They look forward to understanding how our solution works and what they can achieve with Adyen.\n\nAttached is the Roll out plan we have received from the SM [SM Name]",
+      "questions": [
+        {
+          "id": "q1",
+          "section": "Meeting Management",
+          "text": "Did the candidate inquire about the merchant’s current flow or process?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Has researched merchant and can explain understanding of merchants user and payment flows",
+          "desc5": "Can proactively walk team through all the merchants shopper flows & ones they have researched. Askes questions on if there is more not uncovered."
+        },
+        {
+          "id": "q2",
+          "section": "Meeting Management",
+          "text": "Did the candidate ask, set and manage expectations for the meeting? Do they clearly set boundaries for their role vs sales for example?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Starts meeting with Intro & agenda for meeting. No pre comms. Any commercial objections are referenced to SM",
+          "desc5": "Before meeting, a welcome email with agenda for meeting and intro to self & relevant pre reads and ask for questions they already have. Incl proactive statement about commercial topics being directed to SM"
+        },
+        {
+          "id": "q3",
+          "section": "Meeting Management",
+          "text": "Did candidate ensure most critical items were covered in Agenda and anything missed is followed up?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Able to bring meeting back on track, handle objections that could delay agenda and offer solutions to address non agenda items.",
+          "desc5": "Same as Average but also offers deep dive sessions on topics, provides clear documentation and follow ups and is able to retain merchants confidence."
+        },
+        {
+          "id": "q4",
+          "section": "Meeting Management",
+          "text": "Did the candidate show they had done their research on the merchants industry, competitors and business?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Show basic understanding of merchant and virtuical in region.",
+          "desc5": "Shows in depth understanding merchant & vertical and comes prepared with assumptions and work flows for confirmation"
+        },
+        {
+          "id": "q5",
+          "section": "Knowledge & Expertise",
+          "text": "Did the candidate provide the correct Adyen doc links for all relevant points discussed and clear answers to follow up questions?",
+          "priority": 2,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Documented scope, provides relevant docs and answers to follow up questions. Suggests ongoing project meetings.",
+          "desc5": "Is thinking ahead and providing answers and info for questions the merchant has not yet asked for. Proactively offers deep dives to topics the most important to the merchant."
+        },
+        {
+          "id": "q6",
+          "section": "Knowledge & Expertise",
+          "text": "Did the candidate give proper advice on which integration would suit the merchant scenario best and pivot appropriately?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Confidently recommend options based on scoped info.",
+          "desc5": "Able to explain the why & justifacation behind recommendations and handle objecions to this recommendation."
+        },
+        {
+          "id": "q7",
+          "section": "Knowledge & Expertise",
+          "text": "Did the candidate give a proper explanation of the flow of data between the server and client?",
+          "priority": 1,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Used standard doc slides and covers topline information",
+          "desc5": "Able to explain in detail and the effect it has on the merchant & implications (eg. PCI scope etc)"
+        },
+        {
+          "id": "q8",
+          "section": "UC",
+          "text": "Did the candidate present the different Unified Commerce integration options?",
+          "priority": 3,
+          "tag": "UC",
+          "desc1": "",
+          "desc3": "Ran through standard doc page/slide deck and talks to standard UC demo",
+          "desc5": "Candidate uses the integration they built themselves to demo during the meeting"
+        },
+        {
+          "id": "q9",
+          "section": "UC",
+          "text": "Did the IE give a proper explanation on the network configuration profiles? (Local vs Cloud)",
+          "priority": 3,
+          "tag": "UC",
+          "desc1": "",
+          "desc3": "Used standard doc slides and covers topline information",
+          "desc5": "Able to explain in detail and the effect it has on the merchant integration & implications"
+        },
+        {
+          "id": "q10",
+          "section": "UC",
+          "text": "Did the IE give a proper explanation of the terminal fleet?",
+          "priority": 3,
+          "tag": "UC",
+          "desc1": "",
+          "desc3": "Used standard doc slides and covers topline information",
+          "desc5": "Able to explain in detail, the pros & cons and provide informed recommendation based on Merchant use case."
+        },
+        {
+          "id": "q11",
+          "section": "UC",
+          "text": "Did the IE properly present shopper engagement offerings? (Loyalty, Gift Cards, Donations)",
+          "priority": 2,
+          "tag": "UC",
+          "desc1": "",
+          "desc3": "Used standard doc slides and covers topline information",
+          "desc5": "Uses the integration they built themselves to demo during the meeting. Covers all the flows and provides recommendation based on merchant use cases."
+        },
+        {
+          "id": "q12",
+          "section": "UC",
+          "text": "Did the IE give a good explanation on how the shopper experience can be unified across channels? (In-Store, Returns, Refunds & loyalty)",
+          "priority": 2,
+          "tag": "UC",
+          "desc1": "",
+          "desc3": "Used standard doc slides and covers topline information",
+          "desc5": "Uses the integration they built themselves to demo during the meeting. Covers all the flows and provides recommendation based on merchant use cases."
+        },
+        {
+          "id": "q13",
+          "section": "Personal Skills",
+          "text": "Did the candidate appear confident in handling the meeting and questions during the meeting, including unrealistic feature and support requests?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Were able to handle most objections on the spot and acknowledged the need for follow up.",
+          "desc5": "Able to handle ALL objections and show authority to merchant on all topics and recommendations."
+        },
+        {
+          "id": "q14",
+          "section": "Personal Skills",
+          "text": "Did the candidate demonstrate their ability to think on the spot with newly provided information?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Show agility in their approach, able to handle objections professionally. Able to admit to not having answers and show follow up.",
+          "desc5": "Show agility in their approach, able to handle objections professionally. Able to admit to not having answers and show follow up. Also able to find answers on the spot."
+        },
+        {
+          "id": "q15",
+          "section": "Personal Skills",
+          "text": "Did the candidate clearly explain next steps before the end of the call?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Recaps meeting & top line next steps. Suggests ongoing cadence.",
+          "desc5": "Recaps meeting & top line next steps. Suggests ongoing cadence.\nOffers next meeting time on call"
+        },
+        {
+          "id": "q16",
+          "section": "Personal Skills",
+          "text": "Did the candidate speak clearly and were they able to explain complex matters in understandable language?",
+          "priority": 2,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Refers back to standard docs and slides (resources) to support explanation.",
+          "desc5": "Clear articulation and able to on the spot whiteboard and explain reasoning and technical concepts. Able to cater language to less technical audiences."
+        }
+      ],
+      "thresholds": {
+        "IE1": 99,
+        "IE2": 126,
+        "Senior IE": 192
+      }
+    },
+    {
+      "key": "P&FS",
+      "scenario": "Hi [NAME],\n\nYou’re almost at the end of your formal IE onboarding journey which ends in a Fit to Fly assessment on [DATE SCHEDULED]! We hope you’re proud of how far you’ve come!\n\nWhat to expect:\n\n- The Fit to Fly assessment is meant to demonstrate whether or not you are ready to take on projects on your own and it’s a space for you and your team lead to align on your readiness through a true-to-life role play scenario\n- In a 1 hour roleplay, you are the IE leading a technical kick off call with the merchant with a slide deck.\n- You are roleplaying with your team lead and other experienced IEs playing the merchant per the prompt below\n- There will be some questions posed during the merchant call that you will need to come back to the ‘merchant’ on via email, alongside a summary of the kick off call.\n\nFit to Fly role play prompt:\n\nYou are one of our talented IEs, intimately familiar with our Adyen for Platforms solution.\n\nYou’ve been assigned to a project and will lead a technical kick off call with a merchant we’ve been trying to poach from our competitor for years:  [Merchant Name]\n\nThey signed the contract last week and are ready to get started.\n\nYou’ve aligned with the Adyen commercial sales manager [Insert SM name] on high level topics and now [Merchant Name]  has invited their CTO,  [IE Name], a technically gifted person who is slow to warm up to new partners, to learn about Adyen’s integration and integration process.\n\nYour commercial colleague has primed the team and has them excited about Adyen.\n\nWe have just found out the CTO has invited members of their technical team to the meeting, including their developer, [IE Name], who will be in charge of integrating Adyen and the merchants Project manager [TL Name].\n\nTheir developer is a highly technical and organised individual who has worked with the merchants previous PSP before and the Project Manager is an experienced PM who will be managing the project from the merchants side and has never done a PSP integration before,\n\nYou’re expected to lead the call and:\n\n- Uncover the merchant’s unique business needs\n- Present yourself as a subject matter expert\n- Explain and set expectations for Adyen’s way of implementing and what can be achieved in the timeline\n- Give a technical presentation about our Adyen for Platforms proposition tailored using the information you uncover\n- Close the meeting on time and with immediate next steps for the integration\n\nYour commercial colleague has informed you that the attendees are very detail oriented so be ready for some off-track questions.\n\nThe [Merchant Name]  team has 1 hour available, so make sure you condense your talking points to the important topics you want to convey. They look forward to understanding how our solution works and what they can achieve with Adyen.\n\nAttached is the Roll out plan we have received from the SM [SM Name]",
+      "questions": [
+        {
+          "id": "q1",
+          "section": "Meeting Management",
+          "text": "Did the candidate inquire about the merchant’s current flow or process?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Has researched merchant and can explain understanding of merchants user and payment flows",
+          "desc5": "Can proactively walk team through all the merchants shopper flows & ones they have researched. Askes questions on if there is more not uncovered."
+        },
+        {
+          "id": "q2",
+          "section": "Meeting Management",
+          "text": "Did the candidate ask, set and manage expectations for the meeting? Do they clearly set boundaries for their role vs sales for example?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Starts meeting with Intro & agenda for meeting. No pre comms. Any commercial objections are referenced to SM",
+          "desc5": "Before meeting, a welcome email with agenda for meeting and intro to self & relevant pre reads and ask for questions they already have. Incl proactive statement about commercial topics being directed to SM"
+        },
+        {
+          "id": "q3",
+          "section": "Meeting Management",
+          "text": "Did candidate ensure most critical items were covered in Agenda and anything missed is followed up?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Able to bring meeting back on track, handle objections that could delay agenda and offer solutions to address non agenda items.",
+          "desc5": "Same as Average but also offers deep dive sessions on topics, provides clear documentation and follow ups and is able to retain merchants confidence."
+        },
+        {
+          "id": "q4",
+          "section": "Meeting Management",
+          "text": "Did the candidate show they had done their research on the merchants industry, competitors and business?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Show basic understanding of merchant and virtuical in region.",
+          "desc5": "Shows in depth understanding merchant & vertical and comes prepared with assumptions and work flows for confirmation"
+        },
+        {
+          "id": "q5",
+          "section": "Knowledge & Expertise",
+          "text": "Did the candidate provide the correct Adyen doc links for all relevant points discussed and clear answers to follow up questions?",
+          "priority": 2,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Documented scope, provides relevant docs and answers to follow up questions. Suggests ongoing project meetings.",
+          "desc5": "Is thinking ahead and providing answers and info for questions the merchant has not yet asked for. Proactively offers deep dives to topics the most important to the merchant."
+        },
+        {
+          "id": "q6",
+          "section": "Knowledge & Expertise",
+          "text": "Did the candidate give proper advice on which integration would suit the merchant scenario best and pivot appropriately?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Confidently recommend options based on scoped info.",
+          "desc5": "Able to explain the why & justifacation behind recommendations and handle objecions to this recommendation."
+        },
+        {
+          "id": "q7",
+          "section": "Knowledge & Expertise",
+          "text": "Did the candidate give a proper explanation of the flow of data between the server and client?",
+          "priority": 1,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Used standard doc slides and covers topline information",
+          "desc5": "Able to explain in detail and the effect it has on the merchant & implications (eg. PCI scope etc)"
+        },
+        {
+          "id": "q8",
+          "section": "P&FS",
+          "text": "Did the IE validate the AFP model that would best suit the merchants business?",
+          "priority": 3,
+          "tag": "P&FS",
+          "desc1": "",
+          "desc3": "",
+          "desc5": ""
+        },
+        {
+          "id": "q9",
+          "section": "P&FS",
+          "text": "Did the IE properly explain the BP & PSP account structure and advise the merchant on best practises for configuration?",
+          "priority": 3,
+          "tag": "P&FS",
+          "desc1": "",
+          "desc3": "",
+          "desc5": ""
+        },
+        {
+          "id": "q10",
+          "section": "P&FS",
+          "text": "Did the IE explain the onboarding options?",
+          "priority": 1,
+          "tag": "P&FS",
+          "desc1": "",
+          "desc3": "",
+          "desc5": ""
+        },
+        {
+          "id": "q11",
+          "section": "P&FS",
+          "text": "Did the IE give a proper explanation of the additional steps required for platform set ups?",
+          "priority": 3,
+          "tag": "P&FS",
+          "desc1": "",
+          "desc3": "",
+          "desc5": ""
+        },
+        {
+          "id": "q12",
+          "section": "P&FS",
+          "text": "Did the IE give a a proper explanation of splits and split types?",
+          "priority": 3,
+          "tag": "P&FS",
+          "desc1": "",
+          "desc3": "",
+          "desc5": ""
+        },
+        {
+          "id": "q13",
+          "section": "P&FS",
+          "text": "Did the IE give a a proper recommendation of payouts for the merchants use case?",
+          "priority": 3,
+          "tag": "P&FS",
+          "desc1": "",
+          "desc3": "",
+          "desc5": ""
+        },
+        {
+          "id": "q14",
+          "section": "P&FS",
+          "text": "Did the IE provide an overview of the different BP reports and give guidance on reconciliation?",
+          "priority": 2,
+          "tag": "P&FS",
+          "desc1": "",
+          "desc3": "",
+          "desc5": ""
+        },
+        {
+          "id": "q15",
+          "section": "Personal Skills",
+          "text": "Did the candidate appear confident in handling the meeting and questions during the meeting, including unrealistic feature and support requests?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Were able to handle most objections on the spot and acknowledged the need for follow up.",
+          "desc5": "Able to handle ALL objections and show authority to merchant on all topics and recommendations."
+        },
+        {
+          "id": "q16",
+          "section": "Personal Skills",
+          "text": "Did the candidate demonstrate their ability to think on the spot with newly provided information?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Show agility in their approach, able to handle objections professionally. Able to admit to not having answers and show follow up.",
+          "desc5": "Show agility in their approach, able to handle objections professionally. Able to admit to not having answers and show follow up. Also able to find answers on the spot."
+        },
+        {
+          "id": "q17",
+          "section": "Personal Skills",
+          "text": "Did the candidate clearly explain next steps before the end of the call?",
+          "priority": 3,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Recaps meeting & top line next steps. Suggests ongoing cadence.",
+          "desc5": "Recaps meeting & top line next steps. Suggests ongoing cadence.\nOffers next meeting time on call"
+        },
+        {
+          "id": "q18",
+          "section": "Personal Skills",
+          "text": "Did the candidate speak clearly and were they able to explain complex matters in understandable language?",
+          "priority": 2,
+          "tag": "All",
+          "desc1": "",
+          "desc3": "Refers back to standard docs and slides (resources) to support explanation.",
+          "desc5": "Clear articulation and able to on the spot whiteboard and explain reasoning and technical concepts. Able to cater language to less technical audiences."
+        }
+      ],
+      "thresholds": {
+        "IE1": 117,
+        "IE2": 141,
+        "Senior IE": 219
+      }
+    }
+  ]
+}
