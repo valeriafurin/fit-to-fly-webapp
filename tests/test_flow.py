@@ -42,8 +42,13 @@ def test_invites_and_emails(client: TestClient, sender: RecordingSender) -> None
     assert cand.attachments[0].filename == "plan.pdf"
     for p in f.panelists:
         assert p.token not in cand.body_text
+    for p in f.invitees:
         mail = next(e for e in sender.emails if e.to == [p.email])
         assert f"/panel/{p.token}" in mail.body_text
+    # the TL scores from the dashboard: no panel link is emailed to them
+    tl_token = next(p.token for p in f.panelists if p.is_tl)
+    assert not any(tl_token in e.body_text or tl_token in e.body_html for e in sender.emails)
+    assert not any(j.label.startswith("Panel link to Tara") for j in svc(client).jobs.for_f2f(f2f_id))
     jobs = svc(client).jobs.for_f2f(f2f_id)
     assert all(j.status == JobStatus.sent for j in jobs)
     page = client.get(f"/admin/f2f/{f2f_id}").text
@@ -143,7 +148,7 @@ def test_full_flow(client: TestClient, sender: RecordingSender) -> None:
     assert f
     client.post(f"/admin/f2f/{f2f_id}/invite")
     drain(client)
-    for p, s in zip(f.panelists, (3, 4), strict=True):
+    for p, s in zip(f.invitees, (3, 4), strict=True):
         form = score_form(client, f2f_id, s)
         r = client.post(f"/panel/{p.token}/draft", data=form)
         assert r.status_code == 200 and "p1-summary" in r.text
@@ -190,7 +195,7 @@ def test_pdf_content_end_to_end_without_chromium(
     f2f_id = create_f2f(client)
     f = svc(client).store.get(f2f_id)
     assert f
-    for p, s in zip(f.panelists, (2, 4), strict=True):
+    for p, s in zip(f.invitees, (2, 4), strict=True):
         form = score_form(client, f2f_id, s, notes=f"observed by {p.name}")
         # no draft: submit fills the write-up from the notes
         assert client.post(f"/panel/{p.token}/submit", data=form, follow_redirects=False).status_code == 303

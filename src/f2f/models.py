@@ -130,6 +130,8 @@ class Panelist(BaseModel):
     role: str = "Observer"
     token: str = Field(default_factory=new_token)
     status: PanelStatus = PanelStatus.invited
+    # The TL is also a panelist and gets their own scorecard, but is never emailed an invite or a link.
+    is_tl: bool = False
     assessment: Assessment = Field(default_factory=Assessment)
     pdf: bytes | None = None
 
@@ -181,6 +183,11 @@ class F2F(BaseModel):
     @property
     def threshold(self) -> int:
         return self.template.thresholds[self.ie_level]
+
+    @property
+    def invitees(self) -> list[Panelist]:
+        """Panelists who get an email: everyone except the TL, who uses the dashboard."""
+        return [p for p in self.panelists if not p.is_tl]
 
     def panelist_by_token(self, token: str) -> Panelist | None:
         for p in self.panelists:

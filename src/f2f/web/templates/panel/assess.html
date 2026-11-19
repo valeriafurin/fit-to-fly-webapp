@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block home %}/panel/{{ p.token }}{% endblock %}
 {% block title %}Assessment · {{ f.candidate_name }}{% endblock %}
-{% block nav %}<span>{{ p.name }} · {{ p.role }}</span>{% endblock %}
+{% block nav %}{% if p.is_tl %}<a href="/admin/f2f/{{ f.id }}">← Back to dashboard</a> {% endif %}<span>{{ p.name }} · {{ p.role }}</span>{% endblock %}
 {% block content %}
 <h1>Fit to Fly · {{ f.pillar }}: {{ f.candidate_name }}</h1>
 <p class="muted">{{ when }} · {{ f.ie_level }} · {% if f.zoom_link %}<a href="{{ f.zoom_link }}" target="_blank" rel="noopener">Zoom</a>{% endif %}</p>
