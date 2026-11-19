@@ -12,6 +12,12 @@ document.addEventListener("click", (e) => {
     body.appendChild(tpl);
     count.value = i + 1;
   }
+  const submit = e.target.closest("[data-submit-confirm]");
+  if (submit) {
+    const n = document.querySelectorAll(".note-warn:not([hidden])").length;
+    const warn = n ? `${n} note${n > 1 ? "s don't" : " doesn't"} seem to match the score (see the yellow warnings). You can still submit.\n\n` : "";
+    if (!confirm(warn + "Submit and lock your assessment? You will receive the PDF by email.")) e.preventDefault();
+  }
   const copy = e.target.closest("[data-copy]");
   if (copy) {
     navigator.clipboard.writeText(copy.dataset.copy).then(() => {

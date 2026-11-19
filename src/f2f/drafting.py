@@ -40,12 +40,21 @@ def _bullets(items: list[str]) -> str:
     return "\n".join(f"- {i}" for i in items)
 
 
+def as_sentence(text: str) -> str:
+    """Minimal tidy-up without AI: capital first letter and a full stop. AI does the real rewriting."""
+    text = _flat(text)
+    if not text:
+        return text
+    text = text[0].upper() + text[1:]
+    return text if text[-1] in ".!?" else text + "."
+
+
 def score_based_feedback(rating: int | None, note: str) -> QuestionFeedback:
     """No-AI classification: the whole note counts as a strength at 3+ (meets expectations), else a development area."""
     text = _flat(note)
     if not text or rating is None:
         return QuestionFeedback()
-    return QuestionFeedback([text]) if rating >= 3 else QuestionFeedback([], [text])
+    return QuestionFeedback([text]) if rating >= 3 else QuestionFeedback([], [as_sentence(text)])
 
 
 def apply_scoring(rating: int | None, fb: QuestionFeedback, note: str) -> QuestionFeedback:
@@ -148,7 +157,11 @@ async def analyse_notes(
         "Task 2 - per question, decide from the notes whether each observation is a strength or a "
         "development area, judged against the rubric and the score: observations on questions scored "
         "4-5 are normally strengths, on questions scored 1-2 normally development areas, and for a 3 "
-        "judge by what the note says. Rewrite each observation as one concise, standalone bullet. "
+        "judge by what the note says. Rewrite each strength as one concise, standalone bullet. "
+        "Write each development area as one or two complete sentences in the third person, with a subject "
+        "and a verb, that say what the candidate should do differently; expand terse notes into full "
+        "sentences (e.g. 'pricing unclear' -> '[Name] did not explain the pricing model clearly and should "
+        "walk the merchant through the fees step by step.') without adding facts that are not in the notes. "
         "Skip anything that is not an observation. Use the question ids as keys. "
         f"Schema: {NOTES_SCHEMA}"
     )
@@ -239,8 +252,9 @@ async def draft_collated_page1(
         f"Panelist write-ups:\n{json.dumps(panel, ensure_ascii=False)}\n\n"
         "Merge the write-ups into one consolidated page. Summary: 3-5 sentence executive summary of the "
         "notes, with no scores. Per feedback block keep the strengths and development points, remove "
-        "duplicates, keep points several panelists agree on and the strongest specific evidence. Do not "
-        "attribute points to individual panelists. "
+        "duplicates, keep points several panelists agree on and the strongest specific evidence. Write every "
+        "development point as a complete sentence in the third person. Do not attribute points to "
+        "individual panelists. "
         f"Schema: {PAGE1_SCHEMA}"
     )
     try:

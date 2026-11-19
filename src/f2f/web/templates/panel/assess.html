@@ -25,19 +25,20 @@
         <div><b>3 · Meets expectations</b>{{ q.desc3 or "–" }}</div>
         <div><b>5 · Exceeds expectations</b>{{ q.desc5 or "–" }}</div>
       </div>
-      <div><label for="notes-{{ q.id }}">Notes</label><textarea id="notes-{{ q.id }}" name="notes-{{ q.id }}" placeholder="What did you observe? Plain text, in your own words." {% if locked %}disabled{% endif %}>{{ a.notes.get(q.id, "") }}</textarea></div>
+      <div><label for="notes-{{ q.id }}">Notes</label><textarea id="notes-{{ q.id }}" name="notes-{{ q.id }}" placeholder="What did you observe? Plain text, in your own words." {% if locked %}disabled{% endif %}>{{ a.notes.get(q.id, "") }}</textarea>
+        {% set w = warnings.get(q.id, "") %}{% include "partials/note_warning.html" %}</div>
     </div>
     {% endfor %}
   {% endfor %}
   <div class="card" style="margin-top:28px">
     <div class="row"><h2 style="margin:0">Evaluation Summary &amp; Feedback</h2><span class="spacer"></span>
-      {% if not locked %}<button type="button" class="btn small" hx-post="/panel/{{ p.token }}/draft" hx-target="#page1" hx-swap="innerHTML">{% if ai_available %}AI: summarise my notes{% else %}Summarise my notes{% endif %}</button>{% endif %}
+      {% if not locked %}<button type="button" class="btn small" hx-post="/panel/{{ p.token }}/draft" hx-target="#page1" hx-swap="innerHTML" hx-disabled-elt="this"><span class="spinner" aria-hidden="true" hidden></span><span class="idle-label">{% if ai_available %}AI: summarise my notes{% else %}Summarise my notes{% endif %}</span><span class="busy-label" hidden>Summarising…</span></button>{% endif %}
     </div>
     <p class="small muted">Built from your notes only: the summary condenses them, and each note is sorted into a strength or a development area using your score. If you leave this empty, it is filled in when you submit. Edit anything before you submit.</p>
     <div id="page1">{% include "partials/page1_form.html" %}</div>
   </div>
   {% if not locked %}
-  <div class="row"><button class="btn primary" onclick="return confirm('Submit and lock your assessment? You will receive the PDF by email.')">Submit assessment</button>
+  <div class="row"><button class="btn primary" data-submit-confirm>Submit assessment</button>
     <span class="small muted">All questions need a score before you submit.</span></div>
   {% endif %}
 </form>

@@ -154,7 +154,7 @@ def test_ai_classifies_notes_per_scoring(tmp_path: Path) -> None:
     assert fb["q1"].strengths == ["Explained tokenisation clearly"] and fb["q1"].developments == [
         "Missed refunds"
     ]
-    assert fb["q2"].strengths == [] and fb["q2"].developments == ["Rushed"]
+    assert fb["q2"].strengths == [] and fb["q2"].developments == ["Rushed."]
 
 
 def test_ai_failure_falls_back_to_score(tmp_path: Path) -> None:
